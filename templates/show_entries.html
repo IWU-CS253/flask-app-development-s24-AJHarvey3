@@ -11,6 +11,18 @@
       <dd><input type="submit" value="Share">
     </dl>
   </form>
+  <form method="get">
+    <label for="cat_filter">Category Filter:
+          <select name="cat_filter" >
+              <option value="all">All Categories</option>
+
+              {% for cat in categories %}
+                <option value="{{ cat }}"> {{ cat }}</option>
+              {% endfor %}
+          </select>
+         <input type="submit" value="Filter">
+    </label>
+  </form>
   <ul class="entries">
   {% for entry in entries %}
       <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}</li>

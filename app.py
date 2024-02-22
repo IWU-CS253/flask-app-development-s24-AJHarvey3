@@ -68,9 +68,19 @@ def close_db(error):
 @app.route('/')
 def show_entries():
     db = get_db()
-    cur = db.execute('select title, text, category from entries order by id desc')
+    cat_filter = request.args.get('cat_filter')
+
+    if cat_filter == "all" or cat_filter is None:
+        cur = db.execute('select title, text, category from entries order by id desc')
+    else:
+        cur = db.execute('select title, text, category from entries where category = ?', (cat_filter,))
+
     entries = cur.fetchall()
-    return render_template('show_entries.html', entries=entries)
+    cur1 = db.execute('SELECT DISTINCT category FROM entries')
+    # Should create a list of the categories
+    categories = [row['category'] for row in cur1.fetchall()]
+
+    return render_template('show_entries.html', entries=entries, categories=categories)
 
 
 @app.route('/add', methods=['POST'])
