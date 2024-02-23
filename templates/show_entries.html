@@ -17,7 +17,7 @@
               <option value="all">All Categories</option>
 
               {% for cat in categories %}
-                <option value="{{ cat }}"> {{ cat }}</option>
+                <option value="{{ cat }}">{{ cat }}</option>
               {% endfor %}
           </select>
          <input type="submit" value="Filter">
@@ -25,8 +25,15 @@
   </form>
   <ul class="entries">
   {% for entry in entries %}
-      <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}</li>
-      <li><p>Category: {{ entry.category }}</p></li>
+      <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+          <p>Category: {{ entry.category }}</p>
+      </li>
+      <li>
+          <form action="/delete" method="post">
+            <input type="hidden" name="entry_id" value="{{ entry.id }}">
+            <button type="submit">Delete</button>
+          </form>
+      </li>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
   {% endfor %}
