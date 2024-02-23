@@ -82,7 +82,7 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
 
-@app.route('/delete', methods=['POST']
+@app.route('/delete', methods=['POST'])
 def delete_task():
     db = get_db()
     row_id = request.form['task_id']
