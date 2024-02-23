@@ -85,7 +85,7 @@ def add_entry():
 @app.route('/delete', methods=['POST'])
 def delete_task():
     db = get_db()
-    row_id = request.form['task_id']
+    row_id = request.form['task']
     db.execute('delete from entries where id = ?', (row_id,))
     db.commit()
     return redirect(url_for('show_entries'))
