@@ -61,7 +61,7 @@ class FlaskrTestCase(unittest.TestCase):
         entry_id = rv.data.split(b'value="')[1].split(b'"')[0].decode('utf-8')
 
         # edit
-        rv = self.app.post('/edit', data=dict(
+        rv = self.app.post('/update', data=dict(
             row_id=entry_id,
             title='Another Test Entry',
             text='waka waka',
