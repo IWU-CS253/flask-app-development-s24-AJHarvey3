@@ -1,43 +1,66 @@
 {% extends "layout.html" %}
 {% block body %}
-  <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
-    <dl>
-      <dt>Title:
-      <dd><input type="text" size="30" name="title">
-      <dt>Text:
-      <dd><textarea name="text" rows="5" cols="40"></textarea>
-      <dt>Category:
-      <dd><textarea name="category" rows="1" cols="40"></textarea>
-      <dd><input type="submit" value="Share">
-    </dl>
-  </form>
+    <div class="form-floating mb-3">
+      <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
+        <dl>
+          <dt>Title:
+          <dd>
+              <input class="form-control" type="text" size="30" id="title" name="title" placeholder="Enter title here.">
+              <label for="title"></label>
+          <dt>Text:
+          <dd><textarea class="form-control" name="text" rows="5" cols="40" id="text" placeholder="Enter text here."></textarea>
+            <label for="text"></label>
+          <dt>Category:
+          <dd><textarea class="form-control" name="category" rows="1" cols="40" id="cat" placeholder="Enter category here."></textarea>
+            <label for="cat"></label>
+          <dd><input class="btn btn-primary" type="submit" value="Share">
+        </dl>
+      </form>
+    </div>
   <form method="get">
     <label for="cat_filter">Category Filter:
-          <select name="cat_filter" >
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Category selector" name="cat_filter">
               <option value="all">All Categories</option>
 
               {% for cat in categories %}
                 <option value="{{ cat }}">{{ cat }}</option>
               {% endfor %}
           </select>
-         <input type="submit" value="Filter">
+        <label for="floatingSelect">Select Category</label>
+         <input class="btn btn-secondary" type="submit" value="Filter">
+        </div>
     </label>
   </form>
   <ul class="entries">
   {% for entry in entries %}
-      <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
-          <p>Category: {{ entry.category }}</p>
-      </li>
-      <li>
-          <form action="/delete" method="post">
-            <input type="hidden" name="entry_id" value="{{ entry.id }}">
-            <button type="submit">Delete</button>
-          </form>
-          <form action="/edit" method="post">
-              <input type="hidden" name="entry_id" value="{{ entry.id }}">
-              <button type="submit">Edit</button>
-          </form>
-      </li>
+      <div class="container text-center d-grid gap-3">
+        <div class="row">
+            <div class="col">
+                <h2>{{ entry.title }}</h2>
+            </div>
+            <div class="col">
+                <h2>Category: {{ entry.category }}<h2>
+            </div>
+            <div class="col">
+                <form action="/delete" method="post">
+                    <input type="hidden" name="entry_id" value="{{ entry.id }}">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            </div>
+            <div class="col">
+                <form action="/edit" method="post">
+                    <input type="hidden" name="entry_id" value="{{ entry.id }}">
+                    <button class="btn btn-warning" type="submit">Edit</button>
+                </form>
+            </div>
+        </div>
+        <div class="row border border-dark border-top-0 border-start-0 border-end-0">
+            <div class="col">
+                {{ entry.text|safe }}
+            </div>
+        </div>
+      </div>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
   {% endfor %}
