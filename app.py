@@ -116,12 +116,12 @@ def edit_entry():
 @app.route('/update', methods=['POST'])
 def update_entry():
     db = get_db()
-    row_id = request.form['entry_id']
-    title = request.form['title']
-    text = request.form['text']
-    category = request.form['category']
+    #row_id = request.form['entry_id']
+    #title = request.form['title']
+    #text = request.form['text']
+    #category = request.form['category']
     db.execute('update entries set title = ?, text = ?, category = ? where id = ?',
-                     ([title, text, category, row_id]))
+                     ([request.form['title'], request.form['text'], request.form['category'], request.form['entry_id']]))
     db.commit()
     return redirect(url_for('show_entries'))
 

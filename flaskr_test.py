@@ -62,7 +62,7 @@ class FlaskrTestCase(unittest.TestCase):
 
         # edit
         rv = self.app.post('/update', data=dict(
-            row_id=entry_id,
+            entry_id=entry_id,
             title='Another Test Entry',
             text='waka waka',
             category='Another Category'
