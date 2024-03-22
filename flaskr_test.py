@@ -49,5 +49,28 @@ class FlaskrTestCase(unittest.TestCase):
         ), follow_redirects=True)
         assert b'New entry was successfully posted' not in rv.data
 
+    def test_edit_message(self):
+        rv = self.app.post('/add', data=dict(
+            title='Test Entry',
+            text='This is a test entry.',
+            category='Test Category'
+        ), follow_redirects=True)
+
+        # Get the ID of the test entry
+        rv = self.app.get('/')
+        entry_id = rv.data.split(b'value="')[1].split(b'"')[0].decode('utf-8')
+
+        # edit
+        rv = self.app.post('/edit', data=dict(
+            entry_id=entry_id,
+            title='Another Test Entry',
+            text='waka waka',
+            category='Another Category'
+        ), follow_redirects=True)
+        assert b'Another Test entry' in rv.data
+        assert b'waka waka' in rv.data
+        assert b'Another Category' in rv.data
+
+
 if __name__ == '__main__':
     unittest.main()
