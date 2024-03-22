@@ -100,3 +100,29 @@ def delete_entry():
     db.execute('delete from entries where id = ?', (row_id,))
     db.commit()
     return redirect(url_for('show_entries'))
+
+
+@app.route('/edit', methods=['POST'])
+def edit_entry():
+    db = get_db()
+    row_id = request.form['entry_id']
+    cur = db.execute('select * from entries where id = ?', (row_id,))
+    # change to fetchone so that entry doesn't equal a list
+    entry = cur.fetchone()
+
+    return render_template('edit.html', entry=entry)
+
+
+@app.route('/update', methods=['POST'])
+def update_entry():
+    db = get_db()
+    row_id = request.form['entry_id']
+    title = request.form['title']
+    text = request.form['text']
+    category = request.form['category']
+    db.execute('update entries set title = ?, text = ?, category = ? where id = ?',
+                     ([title, text, category, row_id]))
+    db.commit()
+    return redirect(url_for('show_entries'))
+
+
