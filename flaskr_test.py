@@ -59,7 +59,6 @@ class FlaskrTestCase(unittest.TestCase):
         # Get the ID of the test entry
         rv = self.app.get('/')
         entry_id = rv.data.split(b'value="')[1].split(b'"')[0].decode('utf-8')
-        print(rv.data)
 
 
         rv = self.app.post('/update', data=dict(
